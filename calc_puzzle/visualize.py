@@ -6,7 +6,7 @@ import numpy as np
 from calc_puzzle.structs import Problem
 
 
-def visualize(problem: Problem):
+def visualize_problem(problem: Problem):
     size = problem.size
     board_group = np.zeros((size, size), dtype=np.int32)
     board_sum_number = np.zeros((size, size), dtype=np.int32)

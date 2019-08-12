@@ -14,6 +14,7 @@ pulp = "*"
 seaborn = "*"
 sklearn = "*"
 jupyter = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"

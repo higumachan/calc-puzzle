@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 from calc_puzzle.solver import solve, is_unique
 from calc_puzzle.structs import Block, Problem
-from calc_puzzle.visualize import visualize, visualize_answer
+from calc_puzzle.visualize import visualize_problem, visualize_answer
 
 import random
 import numpy as np
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     problem,ab = create_problem(5, 8)
     print(problem)
-    fig = visualize(problem)
+    fig = visualize_problem(problem)
     fig.savefig("test_problem.png")
     fig = visualize_answer(problem, ab)
     fig.savefig("test_answer.png")
