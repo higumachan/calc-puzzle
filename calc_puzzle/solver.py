@@ -1,6 +1,6 @@
 from typing import Tuple, Optional
 
-from calc_puzzle.types import Problem, Block
+from calc_puzzle.structs import Problem, Block
 import pulp
 import numpy as np
 

@@ -1,8 +1,8 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 from calc_puzzle.solver import solve, is_unique
-from calc_puzzle.types import Block, Problem
-from calc_puzzle.visualize import visualize
+from calc_puzzle.structs import Block, Problem
+from calc_puzzle.visualize import visualize, visualize_answer
 
 import random
 import numpy as np
@@ -10,7 +10,7 @@ import pulp
 import copy
 
 
-def create_problem(size: int, num_blocks: int, seed_size: int = 5) -> Optional[Problem]:
+def create_problem(size: int, num_blocks: int, seed_size: int = 5) -> Optional[Tuple[Problem, np.ndarray]]:
     for i in range(1000):
         answer_board = create_random_answer_board(size, seed_size)
         for i in range(30):
@@ -18,7 +18,7 @@ def create_problem(size: int, num_blocks: int, seed_size: int = 5) -> Optional[P
             problem = Problem(size, blocks)
             try:
                 if is_unique(problem):
-                    return problem
+                    return problem, answer_board
             except AssertionError:
                 continue
 
@@ -113,7 +113,9 @@ def md(p1, p2):
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    problem = create_problem(5, 8)
+    problem,ab = create_problem(5, 8)
     print(problem)
     fig = visualize(problem)
-    plt.show()
+    fig.savefig("test_problem.png")
+    fig = visualize_answer(problem, ab)
+    fig.savefig("test_answer.png")
