@@ -93,7 +93,7 @@ def split_answer_board(num_centroids, answer_board):
     positions = [(x, y) for y in range(size) for x in range(size)]
     shuffled_positions = copy.deepcopy(positions)
     random.shuffle(shuffled_positions)
-    centroids = shuffled_positions[:num_centroids]
+    centroids = [(random.uniform(-1, size), random.uniform(-1, size)) for _ in range(num_centroids)]
 
     blocks = [[0, []] for _ in range(num_centroids)]
 
