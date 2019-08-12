@@ -11,6 +11,8 @@ numpy = "*"
 matplotlib = "*"
 jupyterlab = "*"
 pulp = "*"
+seaborn = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.7"
