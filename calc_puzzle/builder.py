@@ -1,5 +1,7 @@
 from typing import Optional, Tuple
 
+from tqdm import trange
+
 from calc_puzzle.solver import solve, is_unique
 from calc_puzzle.structs import Block, Problem
 from calc_puzzle.visualize import visualize_problem, visualize_answer
@@ -11,9 +13,9 @@ import copy
 
 
 def create_problem(size: int, num_blocks: int, seed_size: int = 5) -> Optional[Tuple[Problem, np.ndarray]]:
-    for i in range(1000):
+    for _ in trange(1000):
         answer_board = create_random_answer_board(size, seed_size)
-        for i in range(30):
+        for _ in trange(30):
             blocks, _ = split_answer_board(num_blocks, answer_board)
             problem = Problem(size, blocks)
             try:
@@ -61,8 +63,8 @@ def create_random_answer_board(size, seed_size=5):
 
         # 1つのマスに入る値は1つだけ
 
-        for y in xs:
-            for x in ys:
+        for y in ys:
+            for x in xs:
                 prob += pulp.lpSum([choices[v][x][y] for v in numbers]) == 1
 
         for v in numbers:

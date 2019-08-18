@@ -17,11 +17,11 @@ def create_mip_problem(problem: Problem) -> Tuple[pulp.LpProblem, dict]:
     choices = pulp.LpVariable.dicts("Cell", (numbers, xs, ys), 0, 1, pulp.LpInteger)
 
     # 1つのマスに入る値は1つだけ
-
-    for y in xs:
-        for x in ys:
+    for x in xs:
+        for y in ys:
             prob += pulp.lpSum([choices[v][x][y] for v in numbers]) == 1
 
+    # 縦横で同じ数字は1つしか入らない
     for v in numbers:
         for y in ys:
             prob += pulp.lpSum([choices[v][x][y] for x in xs]) == 1
