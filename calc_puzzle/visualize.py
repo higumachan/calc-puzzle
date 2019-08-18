@@ -14,7 +14,7 @@ def visualize_problem(problem: Problem):
     for i, block in enumerate(problem.blocks):
         for x, y in block.positions:
             board_group[y-1, x-1] = i
-            board_sum_number[y-1, x-1] = block.sum_number
+            board_sum_number[y-1, x-1] = block.agg_number
     fig = plt.Figure()
     ax = fig.add_subplot()
     sns.heatmap(board_group, annot=board_sum_number, square=True, cbar=False, ax=ax, xticklabels=False, yticklabels=False)

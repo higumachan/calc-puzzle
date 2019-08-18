@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 from tqdm import trange
 
 from calc_puzzle.solver import solve, is_unique
-from calc_puzzle.structs import Block, Problem
+from calc_puzzle.structs import Block, Problem, Operator
 from calc_puzzle.visualize import visualize_problem, visualize_answer
 
 import random
@@ -12,11 +12,11 @@ import pulp
 import copy
 
 
-def create_problem(size: int, num_blocks: int, seed_size: int = 5) -> Optional[Tuple[Problem, np.ndarray]]:
+def create_problem(size: int, num_blocks: int, seed_size: int = 5, operator: Operator = Operator.add) -> Optional[Tuple[Problem, np.ndarray]]:
     for _ in trange(1000):
         answer_board = create_random_answer_board(size, seed_size)
         for _ in trange(30):
-            blocks, _ = split_answer_board(num_blocks, answer_board)
+            blocks, _ = split_answer_board(num_blocks, answer_board, operator)
             problem = Problem(size, blocks)
             try:
                 if is_unique(problem):
@@ -90,19 +90,19 @@ def create_random_answer_board(size, seed_size=5):
     return answer_board
 
 
-def split_answer_board(num_centroids, answer_board):
+def split_answer_board(num_centroids, answer_board, op):
     size = answer_board.shape[0]
     positions = [(x, y) for y in range(size) for x in range(size)]
     shuffled_positions = copy.deepcopy(positions)
     random.shuffle(shuffled_positions)
     centroids = [(random.uniform(-1, size), random.uniform(-1, size)) for _ in range(num_centroids)]
 
-    blocks = [[0, []] for _ in range(num_centroids)]
+    blocks = [[op.identity(), [], op] for _ in range(num_centroids)]
 
     for x, y in positions:
         r = np.array([md((x, y), c) for c in centroids]).argmin()
         b = blocks[r]
-        b[0] += answer_board[y, x]
+        b[0] = op.op(b[0], answer_board[y, x])
         b[1].append((x + 1, y + 1))
     blocks = list(map(lambda x: Block(*x), blocks))
 
@@ -115,9 +115,10 @@ def md(p1, p2):
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    problem,ab = create_problem(5, 8)
+    problem,ab = create_problem(5, 8, operator=Operator.mul)
     print(problem)
     fig = visualize_problem(problem)
     fig.savefig("test_problem.png")
     fig = visualize_answer(problem, ab)
     fig.savefig("test_answer.png")
+
