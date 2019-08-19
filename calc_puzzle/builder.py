@@ -97,12 +97,12 @@ def split_answer_board(num_centroids, answer_board, op):
     random.shuffle(shuffled_positions)
     centroids = [(random.uniform(-1, size), random.uniform(-1, size)) for _ in range(num_centroids)]
 
-    blocks = [[op.identity(), [], op] for _ in range(num_centroids)]
+    blocks = [[0, [], op] for _ in range(num_centroids)]
 
     for x, y in positions:
         r = np.array([md((x, y), c) for c in centroids]).argmin()
         b = blocks[r]
-        b[0] = op.op(b[0], answer_board[y, x])
+        b[0] += op.encode(answer_board[y, x])
         b[1].append((x + 1, y + 1))
     blocks = list(map(lambda x: Block(*x), blocks))
 

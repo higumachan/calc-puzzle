@@ -1,26 +1,24 @@
 from enum import Enum
 from typing import NamedTuple, List, Tuple
+import math
 
 
 class Operator(Enum):
     add = 0
     mul = 1
 
-    def op(self, x, y):
-        if self == Operator.add:
-            return x + y
+    def encode(self, x):
         if self == Operator.mul:
-            return x * y
+            return math.log2(x)
+        return x
 
-    def identity(self):
-        if self == Operator.add:
-            return 0
+    def decode(self, x):
         if self == Operator.mul:
-            return 1
-
+            return round(2 ** x)
+        return x
 
 class Block(NamedTuple):
-    agg_number: int
+    sum_number: int
     positions: List[Tuple[int, int]]
     operator: Operator
 

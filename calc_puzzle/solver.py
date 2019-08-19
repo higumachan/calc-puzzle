@@ -34,11 +34,7 @@ def create_mip_problem(problem: Problem) -> Tuple[pulp.LpProblem, dict]:
     # 問題のブロックの制約を追加
 
     for block in problem.blocks:
-        prob += functools.reduce(
-            block.operator.op,
-            [v * choices[v][x][y] for v in numbers for x, y in block.positions],
-            block.operator.identity()) == block.agg_number
-        # prob += pulp.lpSum([v * choices[v][x][y] for v in numbers for x, y in block.positions]) == block.sum_number
+        prob += pulp.lpSum([block.operator.encode(v) * choices[v][x][y] for v in numbers for x, y in block.positions]) == block.sum_number
 
     return prob, choices
 

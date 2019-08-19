@@ -14,10 +14,10 @@ def visualize_problem(problem: Problem):
     for i, block in enumerate(problem.blocks):
         for x, y in block.positions:
             board_group[y-1, x-1] = i
-            board_sum_number[y-1, x-1] = block.agg_number
+            board_sum_number[y-1, x-1] = block.operator.decode(block.sum_number)
     fig = plt.Figure()
     ax = fig.add_subplot()
-    sns.heatmap(board_group, annot=board_sum_number, square=True, cbar=False, ax=ax, xticklabels=False, yticklabels=False)
+    sns.heatmap(board_group, annot=board_sum_number, square=True, cbar=False, ax=ax, xticklabels=False, yticklabels=False, fmt="3")
     ax.set_ylim(size, 0)
 
     return fig
@@ -27,13 +27,15 @@ def visualize_answer(problem: Problem, answer_board):
     size = problem.size
     board_group = np.zeros((size, size), dtype=np.int32)
 
+    answer_board = answer_board.copy()
     for i, block in enumerate(problem.blocks):
         for x, y in block.positions:
             board_group[y - 1, x - 1] = i
+            # answer_board[y - 1, x - 1] = block.operator.decode(answer_board[y - 1, x - 1])
     fig = plt.Figure()
     ax = fig.add_subplot()
     sns.heatmap(board_group, annot=answer_board, square=True, cbar=False, ax=ax, xticklabels=False,
-                yticklabels=False)
+                yticklabels=False, fmt="3")
     ax.set_ylim(size, 0)
 
     return fig
