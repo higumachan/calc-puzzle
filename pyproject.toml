@@ -1,0 +1,21 @@
+[project]
+name = "calc-puzzle"
+version = "0.1.0"
+description = "Calculation puzzle generator and solver"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "opencv-python",
+    "numpy",
+    "matplotlib",
+    "jupyterlab",
+    "pulp",
+    "seaborn",
+    "scikit-learn",
+    "jupyter",
+    "tqdm",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
